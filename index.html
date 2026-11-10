@@ -1,0 +1,1321 @@
+<!DOCTYPE html>
+<html lang="es" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Isla La Porcada · Master Dossier · Ecoresort la Porcada by Aman</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Inter:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              black: '#0A0B0D', dark: '#121418', card: '#181A20', border: '#2A2D36',
+              gold: '#D4AF37', goldLight: '#F3E5AB', goldDark: '#997A15',
+              sand: '#E6DFD5', muted: '#8E95A5',
+              burgundy: '#6b1f2a', ok: '#234e35'
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['"Inter"', 'sans-serif']
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { background-color: #0A0B0D; color: #E6DFD5; font-family: 'Inter', sans-serif; }
+    .font-serif { font-family: 'Cormorant Garamond', serif; }
+    .gold-gradient-text {
+      background: linear-gradient(135deg, #FFF0CA 0%, #D4AF37 50%, #997A15 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .glass-panel {
+      background: rgba(24, 26, 32, 0.75); backdrop-filter: blur(16px);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+    }
+    .glass-strong {
+      background: rgba(24, 26, 32, 0.92); backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.25);
+    }
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: #0A0B0D; }
+    ::-webkit-scrollbar-thumb { background: #2A2D36; border-radius: 3px; }
+    ::-webkit-scrollbar-thumb:hover { background: #D4AF37; }
+    input[type=range] { accent-color: #D4AF37; }
+    .section-anchor { scroll-margin-top: 90px; }
+    /* Bilingüe */
+    .es-text { display: block; }
+    .en-text { display: none; }
+    body.lang-en .es-text { display: none; }
+    body.lang-en .en-text { display: block; }
+    .es-text.inline { display: inline; }
+    .en-text.inline { display: none; }
+    body.lang-en .es-text.inline { display: none; }
+    body.lang-en .en-text.inline { display: inline; }
+    .tab-btn.active { background: linear-gradient(135deg, #D4AF37 0%, #997A15 100%); color: #0A0B0D !important; }
+    .tab-panel.hidden-tab { display: none; }
+    .print-header { display: none; }
+    /* Print */
+    @media print {
+      @page { size: A4; margin: 12mm; }
+      body { background: #0A0B0D !important; color: #E6DFD5 !important; }
+      #accessModal, .topbar-actions .btn-print, .lang-toggle, #mainContent nav { display: none !important; }
+      #mainContent { opacity: 1 !important; }
+      * { -webkit-print-color-adjust: exact !important; print-color-adjust: exact !important; }
+      .glass-panel, .glass-strong { background: #181A20 !important; }
+      section { page-break-inside: avoid; }
+      .chart-card canvas { max-width: 100% !important; height: auto !important; }
+      .print-header { display: flex !important; justify-content: space-between; padding: 0 0 12px 0; border-bottom: 2px solid #D4AF37; margin-bottom: 12px; }
+      .simulator-panel, .chart-card { page-break-inside: avoid; }
+      /* Hero en impresión: sin imagen de fondo, padding reducido, min-height auto */
+      #overview { min-height: auto !important; padding-top: 40px !important; padding-bottom: 30px !important; }
+      #overview .absolute { display: none !important; }
+      #overview .relative.z-10 { position: static !important; }
+      /* Quitar animaciones y transforms problemáticos */
+      .animate-pulse, .animate-bounce { animation: none !important; }
+      .scale-105 { transform: none !important; }
+      /* Asegurar que text-white se imprima blanco sobre fondo oscuro */
+      .text-white { color: #ffffff !important; }
+      .text-brand-gold, .text-brand-goldLight { color: #D4AF37 !important; }
+      .text-brand-sand { color: #E6DFD5 !important; }
+      .text-brand-muted { color: #8E95A5 !important; }
+      /* Glass panels con borde visible */
+      .glass-panel { border: 1px solid rgba(212, 175, 55, 0.3) !important; }
+      /* Inputs y formularios ocultos en impresión */
+      #nda form input, #nda form textarea, #nda form select, #nda form button { display: none !important; }
+      #nda form label { display: block !important; margin-top: 12px; padding: 8px 0; border-bottom: 1px solid rgba(212,175,55,0.2); }
+    }
+  </style>
+</head>
+<body class="bg-brand-black text-brand-sand antialiased selection:bg-brand-gold selection:text-black lang-es">
+
+  <!-- MODAL DE ACCESO PRIVADO -->
+  <div id="accessModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-xl transition-opacity duration-700">
+    <div class="max-w-md w-full mx-4 p-8 glass-strong rounded-2xl text-center border border-brand-gold/30 shadow-2xl relative overflow-hidden">
+      <div class="absolute -top-24 -left-24 w-48 h-48 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="inline-flex p-3 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold mb-4">
+        <i data-lucide="shield-lock" class="w-8 h-8"></i>
+      </div>
+      <span class="block text-xs uppercase tracking-[0.3em] text-brand-gold font-medium mb-1">
+        <span class="es-text">Memorando Privado Off-Market</span>
+        <span class="en-text">Private Off-Market Memorandum</span>
+      </span>
+      <h2 class="text-3xl font-serif text-white font-light tracking-wide mb-3">Ecoresort la Porcada</h2>
+      <p class="text-xs text-brand-muted mb-6 font-light leading-relaxed">
+        <span class="es-text">Este portal contiene información financiera, arquitectónica y comercial confidencial del Mar a Lago del Siglo XXI operado por Aman. Por favor ingrese su pase VIP o token de autorización.</span>
+        <span class="en-text">This portal contains confidential financial, architectural and commercial information about the 21st Century Mar a Lago operated by Aman. Please enter your VIP pass or authorization token.</span>
+      </p>
+      <form id="accessForm" class="space-y-4">
+        <div>
+          <input type="password" id="passcode" placeholder="PORCADA2026" required
+            class="w-full px-4 py-3 bg-brand-dark border border-brand-border rounded-xl text-center text-white tracking-widest focus:outline-none focus:border-brand-gold transition text-sm">
+        </div>
+        <button type="submit"
+          class="w-full py-3.5 bg-gradient-to-r from-brand-gold to-brand-goldDark text-black font-medium text-sm tracking-widest uppercase rounded-xl hover:opacity-90 transition shadow-lg shadow-brand-gold/10 flex items-center justify-center gap-2">
+          <span class="es-text">Acceder al Dossier</span>
+          <span class="en-text">Enter Dossier</span>
+          <i data-lucide="arrow-right" class="w-4 h-4"></i>
+        </button>
+        <p id="accessError" class="text-[10px] text-brand-burgundy uppercase tracking-widest hidden">
+          <span class="es-text">Código incorrecto · Intente de nuevo</span>
+          <span class="en-text">Incorrect code · Try again</span>
+        </p>
+      </form>
+      <div class="mt-6 pt-4 border-t border-brand-border/50 text-[11px] text-brand-muted flex justify-between items-center">
+        <span>Ref: LP-AMAN-2026</span>
+        <button onclick="fillDemoCode()" class="text-brand-gold hover:underline">
+          <span class="es-text">Usar código DEMO</span>
+          <span class="en-text">Use DEMO code</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- HEADER DE IMPRESIÓN -->
+  <div class="print-header text-brand-sand">
+    <div class="font-serif text-sm text-brand-gold">ISLA LA PORCADA <span class="text-brand-muted">·</span> ECORESORT LA PORCADA BY AMAN <span class="text-brand-muted">·</span> MASTER DOSSIER</div>
+    <div class="text-[10px] text-brand-muted uppercase tracking-widest">
+      <span class="es-text inline">Fecha:</span><span class="en-text inline">Date:</span> <strong id="printDate" class="text-brand-gold"></strong>
+    </div>
+  </div>
+
+  <!-- CONTENIDO PRINCIPAL (oculto hasta unlock) -->
+  <div id="mainContent" class="opacity-0 transition-opacity duration-1000">
+
+    <!-- TOPBAR STICKY -->
+    <nav class="fixed top-0 left-0 right-0 z-40 bg-brand-black/80 backdrop-blur-md border-b border-brand-border/50">
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <img src="images/logo.png" alt="Isla La Porcada" class="w-10 h-10 rounded-full object-cover border border-brand-gold/40">
+          <div>
+            <span class="font-serif text-lg text-white tracking-wide block leading-none">ISLA LA PORCADA</span>
+            <span class="text-[9px] uppercase tracking-[0.25em] text-brand-gold">Ecoresort by Aman</span>
+          </div>
+        </div>
+        <div class="hidden lg:flex items-center gap-7 text-xs uppercase tracking-widest text-brand-muted">
+          <a href="#market" class="hover:text-brand-gold transition"><span class="es-text">Mercado</span><span class="en-text">Market</span></a>
+          <a href="#simulators" class="hover:text-brand-gold transition"><span class="es-text">Simuladores</span><span class="en-text">Simulators</span></a>
+          <a href="#protocol" class="hover:text-brand-gold transition"><span class="es-text">Protocolo</span><span class="en-text">Protocol</span></a>
+          <a href="#team" class="hover:text-brand-gold transition"><span class="es-text">Equipo</span><span class="en-text">Team</span></a>
+          <a href="#capex" class="hover:text-brand-gold transition"><span class="es-text">CAPEX</span><span class="en-text">CAPEX</span></a>
+          <a href="#spv" class="hover:text-brand-gold transition">SPV</a>
+          <a href="#nda" class="hover:text-brand-gold transition">NDA</a>
+        </div>
+        <div class="topbar-actions flex items-center gap-3">
+          <div class="lang-toggle inline-flex bg-brand-dark border border-brand-gold/40 rounded-full p-1 gap-1">
+            <button type="button" data-lang="es" class="px-3 py-1 text-[11px] font-bold tracking-widest rounded-full active">ES</button>
+            <button type="button" data-lang="en" class="px-3 py-1 text-[11px] font-bold tracking-widest rounded-full text-brand-muted">EN</button>
+          </div>
+          <button type="button" id="btnPrint" class="btn-print inline-flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-brand-gold to-brand-goldDark text-black font-bold text-[11px] tracking-widest uppercase rounded-full hover:opacity-90 transition">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" class="w-3.5 h-3.5"><polyline points="6 9 6 2 18 2 18 9"></polyline><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path><rect x="6" y="14" width="12" height="8"></rect></svg>
+            <span class="es-text inline">PDF</span><span class="en-text inline">PDF</span>
+          </button>
+          <a href="#nda" class="hidden md:inline-block px-4 py-2 text-xs uppercase tracking-widest border border-brand-gold/50 text-brand-gold hover:bg-brand-gold hover:text-black transition rounded-lg font-medium">
+            <span class="es-text">Solicitar NDA</span><span class="en-text">Request NDA</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- HERO -->
+    <section id="overview" class="relative min-h-screen pt-28 pb-16 flex items-center justify-center overflow-hidden">
+      <div class="absolute inset-0 z-0">
+        <img src="images/bonoporcada.png" alt="Isla La Porcada" class="w-full h-full object-cover opacity-30 scale-105">
+        <div class="absolute inset-0 bg-gradient-to-t from-brand-black via-brand-black/75 to-transparent"></div>
+      </div>
+      <div class="relative z-10 max-w-7xl mx-auto px-6 text-center">
+        <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-gold/10 border border-brand-gold/30 text-brand-gold text-xs uppercase tracking-[0.3em] mb-6">
+          <i data-lucide="gem" class="w-3.5 h-3.5"></i>
+          <span class="es-text">Activo Off-Market · Mar a Lago del Siglo XXI</span>
+          <span class="en-text">Off-Market Asset · 21st Century Mar a Lago</span>
+        </div>
+        <h1 class="text-5xl md:text-7xl font-serif text-white font-light tracking-tight leading-tight max-w-5xl mx-auto mb-6">
+          <span class="es-text">Isla La Porcada · <span class="gold-gradient-text italic">Mar a Lago del Siglo XXI</span></span>
+          <span class="en-text">Isla La Porcada · <span class="gold-gradient-text italic">21st Century Mar a Lago</span></span>
+        </h1>
+        <p class="text-base md:text-lg text-brand-muted max-w-3xl mx-auto font-light leading-relaxed mb-12">
+          <span class="es-text">El eco-resort más exclusivo del planeta, diseñado por <strong class="text-brand-sand font-normal">Denniston Architects</strong> y operado por el estándar global de ultra-lujo <strong class="text-brand-sand font-normal">Aman</strong>. Sólo <strong class="text-brand-gold font-normal">5.000 Membresías Executive</strong> representan el <strong class="text-brand-gold font-normal">0,90%</strong> de los 556.850 ultra-ricos del mundo.</span>
+          <span class="en-text">The most exclusive eco-resort on the planet, designed by <strong class="text-brand-sand font-normal">Denniston Architects</strong> and operated by the global ultra-luxury standard <strong class="text-brand-sand font-normal">Aman</strong>. Only <strong class="text-brand-gold font-normal">5,000 Executive Memberships</strong> represent <strong class="text-brand-gold font-normal">0.90%</strong> of the world's 556,850 ultra-wealthy.</span>
+        </p>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-5xl mx-auto text-left">
+          <div class="glass-panel p-6 rounded-2xl border-l-2 border-l-brand-gold">
+            <span class="text-xs uppercase tracking-wider text-brand-muted block mb-1"><span class="es-text">CAPEX Consolidado</span><span class="en-text">Consolidated CAPEX</span></span>
+            <div class="text-2xl md:text-3xl font-serif text-white font-semibold">$750M</div>
+            <span class="text-[10px] text-brand-gold mt-1 block font-mono">USD · 77.500 m² edificados</span>
+          </div>
+          <div class="glass-panel p-6 rounded-2xl border-l-2 border-l-brand-gold">
+            <span class="text-xs uppercase tracking-wider text-brand-muted block mb-1"><span class="es-text">Membresías Executive</span><span class="en-text">Executive Memberships</span></span>
+            <div class="text-2xl md:text-3xl font-serif text-white font-semibold">5.000</div>
+            <span class="text-[10px] text-brand-gold mt-1 block font-mono"><span class="es-text">0,90% del universo UHNW</span><span class="en-text">0.90% of UHNW universe</span></span>
+          </div>
+          <div class="glass-panel p-6 rounded-2xl border-l-2 border-l-brand-gold">
+            <span class="text-xs uppercase tracking-wider text-brand-muted block mb-1"><span class="es-text">Retorno Garantizado</span><span class="en-text">Guaranteed Return</span></span>
+            <div class="text-2xl md:text-3xl font-serif text-white font-semibold">4,5%</div>
+            <span class="text-[10px] text-brand-gold mt-1 block font-mono">Operado por Aman</span>
+          </div>
+          <div class="glass-panel p-6 rounded-2xl border-l-2 border-l-brand-gold">
+            <span class="text-xs uppercase tracking-wider text-brand-muted block mb-1"><span class="es-text">Ciclo Comercial</span><span class="en-text">Commercial Cycle</span></span>
+            <div class="text-2xl md:text-3xl font-serif text-white font-semibold">36 <span class="es-text">Meses</span><span class="en-text">Months</span></div>
+            <span class="text-[10px] text-brand-muted mt-1 block font-mono"><span class="es-text">12m pre-obra + 24m obra</span><span class="en-text">12m pre-build + 24m build</span></span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 1: EMBUDO UHNW -->
+    <section id="market" class="section-anchor py-24 bg-brand-dark border-t border-b border-brand-border/40">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium block mb-2">
+            <span class="es-text">Inteligencia de Mercado · Exclusividad Cuantificada</span>
+            <span class="en-text">Market Intelligence · Quantified Exclusivity</span>
+          </span>
+          <h2 class="text-4xl font-serif text-white font-light mb-4">
+            <span class="es-text">El <span class="gold-gradient-text italic">0,90%</span> más exclusivo del planeta</span>
+            <span class="en-text">The most exclusive <span class="gold-gradient-text italic">0.90%</span> on the planet</span>
+          </h2>
+          <p class="text-sm text-brand-muted leading-relaxed font-light">
+            <span class="es-text">5.000 Membresías Executive representan el 0,90% (prácticamente el 1%) de los 556.850 Ultra-High-Net-Worth del mundo (patrimonio superior a $30M USD). En la cúspide absoluta, sólo 3.428 multimillonarios (>$1.000M USD) existen globalmente.</span>
+            <span class="en-text">5,000 Executive Memberships represent 0.90% (practically 1%) of the world's 556,850 Ultra-High-Net-Worth individuals (net worth above $30M USD). At the absolute peak, only 3,428 billionaires (>$1,000M USD) exist globally.</span>
+          </p>
+        </div>
+
+        <!-- 3 Stat cards heroicas -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+          <div class="glass-panel p-8 rounded-2xl text-center relative overflow-hidden">
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-brand-gold/5 rounded-full blur-2xl"></div>
+            <div class="text-5xl font-serif font-light gold-gradient-text mb-2">3.428</div>
+            <span class="text-xs uppercase tracking-widest text-brand-muted">
+              <span class="es-text">Multimillonarios >$1.000M USD</span>
+              <span class="en-text">Billionaires >$1,000M USD</span>
+            </span>
+            <p class="text-[10px] text-brand-gold mt-2 font-mono">
+              <span class="es-text">Cúspide absoluta · Censo Forbes 2025</span>
+              <span class="en-text">Absolute peak · Forbes Census 2025</span>
+            </p>
+          </div>
+          <div class="glass-panel p-8 rounded-2xl text-center relative overflow-hidden border-brand-gold/30">
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-brand-gold/10 rounded-full blur-2xl"></div>
+            <div class="text-5xl font-serif font-light gold-gradient-text mb-2">556.850</div>
+            <span class="text-xs uppercase tracking-widest text-brand-muted">
+              <span class="es-text">UHNWI >$30M USD</span>
+              <span class="en-text">UHNWI >$30M USD</span>
+            </span>
+            <p class="text-[10px] text-brand-gold mt-2 font-mono">
+              <span class="es-text">Universo UHNW global · Knight Frank 2025</span>
+              <span class="en-text">Global UHNW universe · Knight Frank 2025</span>
+            </p>
+          </div>
+          <div class="glass-panel p-8 rounded-2xl text-center relative overflow-hidden border-2 border-brand-gold/40">
+            <div class="absolute -top-12 -right-12 w-32 h-32 bg-brand-gold/15 rounded-full blur-2xl"></div>
+            <div class="text-5xl font-serif font-light gold-gradient-text mb-2">0,90%</div>
+            <span class="text-xs uppercase tracking-widest text-brand-muted">
+              <span class="es-text">Universo capturado por La Porcada</span>
+              <span class="en-text">Universe captured by La Porcada</span>
+            </span>
+            <p class="text-[10px] text-brand-gold mt-2 font-mono">
+              <span class="es-text">5.000 membresías / 556.850 UHNWI</span>
+              <span class="en-text">5,000 memberships / 556,850 UHNWI</span>
+            </p>
+          </div>
+        </div>
+
+        <!-- Chart Funnel -->
+        <div class="glass-panel p-8 rounded-2xl">
+          <div class="flex justify-between items-center mb-6">
+            <h3 class="text-base font-serif text-white">
+              <span class="es-text">Embudo de Exclusividad Global</span>
+              <span class="en-text">Global Exclusivity Funnel</span>
+            </h3>
+            <span class="text-[10px] font-mono px-3 py-1 bg-brand-gold/10 text-brand-gold border border-brand-gold/30 rounded-full">
+              <span class="es-text">De 3.428 a 5.000</span>
+              <span class="en-text">From 3,428 to 5,000</span>
+            </span>
+          </div>
+          <div class="h-80 w-full">
+            <canvas id="chartFunnel"></canvas>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 2: SIMULADORES INTERACTIVOS -->
+    <section id="simulators" class="section-anchor py-24 bg-brand-black">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium block mb-2">
+            <span class="es-text">Simulación Financiera Interactiva</span>
+            <span class="en-text">Interactive Financial Simulation</span>
+          </span>
+          <h2 class="text-4xl font-serif text-white font-light mb-4">
+            <span class="es-text">Calculadora ROI <span class="gold-gradient-text italic">Patrimonial</span></span>
+            <span class="en-text">Patrimonial <span class="gold-gradient-text italic">ROI</span> Calculator</span>
+          </h2>
+          <p class="text-sm text-brand-muted leading-relaxed font-light">
+            <span class="es-text">Ajuste los parámetros para evaluar el comportamiento del activo. Dos modelos disponibles: Membresía Executive ($250k) y Villa Denniston ($25M).</span>
+            <span class="en-text">Adjust the parameters to evaluate the asset's behavior. Two models available: Executive Membership ($250k) and Denniston Villa ($25M).</span>
+          </p>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex justify-center gap-3 mb-8">
+          <button type="button" class="tab-btn active px-6 py-3 text-xs uppercase tracking-widest font-medium rounded-full border border-brand-gold/30 text-brand-sand transition" data-tab="membership">
+            <span class="es-text">Membresía Executive · $250k</span>
+            <span class="en-text">Executive Membership · $250k</span>
+          </button>
+          <button type="button" class="tab-btn px-6 py-3 text-xs uppercase tracking-widest font-medium rounded-full border border-brand-gold/30 text-brand-sand transition" data-tab="villa">
+            <span class="es-text">Villa Denniston · $25M</span>
+            <span class="en-text">Denniston Villa · $25M</span>
+          </button>
+        </div>
+
+        <!-- TAB 1: Membresía -->
+        <div id="tab-membership" class="tab-panel">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-5 glass-panel p-8 rounded-2xl space-y-6">
+              <h3 class="text-lg font-serif text-white border-b border-brand-border/60 pb-4 flex justify-between items-center">
+                <span class="es-text">Parámetros Membresía</span>
+                <span class="en-text">Membership Parameters</span>
+                <i data-lucide="sliders" class="w-4 h-4 text-brand-gold"></i>
+              </h3>
+              <div>
+                <div class="flex justify-between text-xs mb-2">
+                  <span class="text-brand-muted"><span class="es-text">Tier de Membresía</span><span class="en-text">Membership Tier</span></span>
+                  <span class="font-mono text-brand-gold font-medium" id="m_valInitial">$250.000 USD</span>
+                </div>
+                <input type="range" id="m_inputInitial" min="150000" max="500000" step="10000" value="250000" class="w-full h-1.5 bg-brand-border rounded-lg appearance-none cursor-pointer" oninput="updateMembershipSim()">
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-2">
+                  <span class="text-brand-muted"><span class="es-text">Plusvalía Anual (%)</span><span class="en-text">Annual Appreciation (%)</span></span>
+                  <span class="font-mono text-brand-gold font-medium" id="m_valAppreciation">3,0%</span>
+                </div>
+                <input type="range" id="m_inputAppreciation" min="0" max="8" step="0.25" value="3" class="w-full h-1.5 bg-brand-border rounded-lg appearance-none cursor-pointer" oninput="updateMembershipSim()">
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-2">
+                  <span class="text-brand-muted"><span class="es-text">Dividendos Miembros (%)</span><span class="en-text">Member Dividends (%)</span></span>
+                  <span class="font-mono text-brand-gold font-medium" id="m_valDividend">1,5%</span>
+                </div>
+                <input type="range" id="m_inputDividend" min="0" max="3" step="0.25" value="1.5" class="w-full h-1.5 bg-brand-border rounded-lg appearance-none cursor-pointer" oninput="updateMembershipSim()">
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-2">
+                  <span class="text-brand-muted"><span class="es-text">Horizonte Temporal</span><span class="en-text">Time Horizon</span></span>
+                  <span class="font-mono text-brand-gold font-medium" id="m_valYears">10 <span class="es-text">Años</span><span class="en-text">Years</span></span>
+                </div>
+                <input type="range" id="m_inputYears" min="1" max="20" step="1" value="10" class="w-full h-1.5 bg-brand-border rounded-lg appearance-none cursor-pointer" oninput="updateMembershipSim()">
+              </div>
+              <div class="pt-4 border-t border-brand-border/60 grid grid-cols-2 gap-4">
+                <div class="bg-brand-black/60 p-4 rounded-xl">
+                  <span class="text-[10px] text-brand-muted uppercase tracking-wider block"><span class="es-text">Dividendos Acumulados</span><span class="en-text">Accumulated Dividends</span></span>
+                  <div class="text-lg font-serif text-white font-semibold mt-1" id="m_kpiDividends">$37.500</div>
+                </div>
+                <div class="bg-brand-black/60 p-4 rounded-xl">
+                  <span class="text-[10px] text-brand-muted uppercase tracking-wider block"><span class="es-text">Valor Proyectado</span><span class="en-text">Projected Value</span></span>
+                  <div class="text-lg font-serif text-brand-gold font-semibold mt-1" id="m_kpiFuture">$335.979</div>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-7 glass-panel p-8 rounded-2xl">
+              <div class="flex justify-between items-center mb-6">
+                <h3 class="text-base font-serif text-white"><span class="es-text">Evolución Patrimonio Membresía</span><span class="en-text">Membership Wealth Evolution</span></h3>
+                <span class="text-[10px] font-mono px-3 py-1 bg-brand-gold/10 text-brand-gold border border-brand-gold/30 rounded-full"><span class="es-text">Proyección Compuesta</span><span class="en-text">Compound Projection</span></span>
+              </div>
+              <div class="h-80 w-full"><canvas id="m_chart"></canvas></div>
+              <p class="text-[11px] text-brand-muted mt-4 text-center font-light">
+                <span class="es-text">*Combina plusvalía inmobiliaria del eco-resort + dividendos indexados a la rentabilidad Aman del 4,5%.</span>
+                <span class="en-text">*Combines eco-resort property appreciation + dividends indexed to Aman's 4.5% yield.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: Villa -->
+        <div id="tab-villa" class="tab-panel hidden-tab">
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+            <div class="lg:col-span-5 glass-panel p-8 rounded-2xl space-y-6">
+              <h3 class="text-lg font-serif text-white border-b border-brand-border/60 pb-4 flex justify-between items-center">
+                <span class="es-text">Parámetros Villa Denniston</span>
+                <span class="en-text">Denniston Villa Parameters</span>
+                <i data-lucide="sliders" class="w-4 h-4 text-brand-gold"></i>
+              </h3>
+              <div>
+                <div class="flex justify-between text-xs mb-2">
+                  <span class="text-brand-muted"><span class="es-text">Valor Inicial Villa</span><span class="en-text">Initial Villa Value</span></span>
+                  <span class="font-mono text-brand-gold font-medium" id="v_valInitial">$25.000.000 USD</span>
+                </div>
+                <input type="range" id="v_inputInitial" min="15000000" max="40000000" step="1000000" value="25000000" class="w-full h-1.5 bg-brand-border rounded-lg appearance-none cursor-pointer" oninput="updateVillaSim()">
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-2">
+                  <span class="text-brand-muted"><span class="es-text">Rentabilidad Garantizada (%)</span><span class="en-text">Guaranteed Yield (%)</span></span>
+                  <span class="font-mono text-brand-gold font-medium" id="v_valGuarantee">4,5%</span>
+                </div>
+                <input type="range" id="v_inputGuarantee" min="2" max="7" step="0.25" value="4.5" class="w-full h-1.5 bg-brand-border rounded-lg appearance-none cursor-pointer" oninput="updateVillaSim()">
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-2">
+                  <span class="text-brand-muted"><span class="es-text">Plusvalía Anual (%)</span><span class="en-text">Annual Appreciation (%)</span></span>
+                  <span class="font-mono text-brand-gold font-medium" id="v_valAppreciation">3,0%</span>
+                </div>
+                <input type="range" id="v_inputAppreciation" min="0" max="8" step="0.25" value="3" class="w-full h-1.5 bg-brand-border rounded-lg appearance-none cursor-pointer" oninput="updateVillaSim()">
+              </div>
+              <div>
+                <div class="flex justify-between text-xs mb-2">
+                  <span class="text-brand-muted"><span class="es-text">Horizonte Temporal</span><span class="en-text">Time Horizon</span></span>
+                  <span class="font-mono text-brand-gold font-medium" id="v_valYears">10 <span class="es-text">Años</span><span class="en-text">Years</span></span>
+                </div>
+                <input type="range" id="v_inputYears" min="1" max="20" step="1" value="10" class="w-full h-1.5 bg-brand-border rounded-lg appearance-none cursor-pointer" oninput="updateVillaSim()">
+              </div>
+              <div class="pt-4 border-t border-brand-border/60 grid grid-cols-2 gap-4">
+                <div class="bg-brand-black/60 p-4 rounded-xl">
+                  <span class="text-[10px] text-brand-muted uppercase tracking-wider block"><span class="es-text">Flujo Garantizado Total</span><span class="en-text">Total Guaranteed Flow</span></span>
+                  <div class="text-lg font-serif text-white font-semibold mt-1" id="v_kpiTotalYield">$11.250.000</div>
+                </div>
+                <div class="bg-brand-black/60 p-4 rounded-xl">
+                  <span class="text-[10px] text-brand-muted uppercase tracking-wider block"><span class="es-text">Valor Villa Proyectado</span><span class="en-text">Projected Villa Value</span></span>
+                  <div class="text-lg font-serif text-brand-gold font-semibold mt-1" id="v_kpiFutureValue">$33.597.909</div>
+                </div>
+              </div>
+            </div>
+            <div class="lg:col-span-7 glass-panel p-8 rounded-2xl">
+              <div class="flex justify-between items-center mb-6">
+                <h3 class="text-base font-serif text-white"><span class="es-text">Evolución Patrimonio & Flujos Acumulados</span><span class="en-text">Wealth & Accumulated Flows Evolution</span></h3>
+                <span class="text-[10px] font-mono px-3 py-1 bg-brand-gold/10 text-brand-gold border border-brand-gold/30 rounded-full"><span class="es-text">Pool Aman 320 días</span><span class="en-text">Aman Pool 320 days</span></span>
+              </div>
+              <div class="h-80 w-full"><canvas id="v_chart"></canvas></div>
+              <p class="text-[11px] text-brand-muted mt-4 text-center font-light">
+                <span class="es-text">*Modelo asume abono anualizado del 4,5% garantizado libre de costes operativos + revalorización compounding del activo Denniston.</span>
+                <span class="en-text">*Model assumes annualized 4.5% guaranteed yield free of residential operating costs + Denniston asset compounding revaluation.</span>
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 3: PROTOCOLO -->
+    <section id="protocol" class="section-anchor py-24 bg-brand-dark border-t border-b border-brand-border/40">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium block mb-2">
+            <span class="es-text">Protocolo de Contacto · Estilo y Diplomacia</span>
+            <span class="en-text">Contact Protocol · Style and Diplomacy</span>
+          </span>
+          <h2 class="text-4xl font-serif text-white font-light mb-4">
+            <span class="es-text">Seis fases <span class="gold-gradient-text italic">innegociables</span></span>
+            <span class="en-text">Six <span class="gold-gradient-text italic">non-negotiable</span> phases</span>
+          </h2>
+          <p class="text-sm text-brand-muted leading-relaxed font-light">
+            <span class="es-text">Cada abordaje a una family office o banquero privado se prepara como una audiencia ante una corona — expediente impecable, presentación sobria, canal cifrado y una sola oportunidad.</span>
+            <span class="en-text">Every approach to a family office or private banker is prepared as an audience before a crown — impeccable dossier, sober presentation, encrypted channel and a single chance.</span>
+          </p>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div class="glass-panel p-6 rounded-2xl hover:border-brand-gold/40 transition group">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold group-hover:scale-110 transition"><i data-lucide="search"></i></div>
+              <span class="text-2xl font-serif text-brand-gold/40">01</span>
+            </div>
+            <h3 class="text-xl font-serif text-white mb-2"><span class="es-text">Identificación & Screening</span><span class="en-text">Identification & Screening</span></h3>
+            <p class="text-xs text-brand-muted leading-relaxed font-light mb-3">
+              <span class="es-text">Cruzamiento FO Exchange + Wealth-X. Filtro AUM >$250M, histórico >10 años, compliance clean. Target: 250 FOs/mes.</span>
+              <span class="en-text">Cross-referencing FO Exchange + Wealth-X. Filter AUM >$250M, track record >10 years, clean compliance. Target: 250 FOs/month.</span>
+            </p>
+            <ul class="text-xs text-brand-sand space-y-1 font-mono">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-brand-gold"></i> <span class="es-text">Bases globales</span><span class="en-text">Global databases</span></li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-brand-gold"></i> <span class="es-text">FATCA/CRS check</span><span class="en-text">FATCA/CRS check</span></li>
+            </ul>
+          </div>
+          <div class="glass-panel p-6 rounded-2xl hover:border-brand-gold/40 transition group">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold group-hover:scale-110 transition"><i data-lucide="mail-open"></i></div>
+              <span class="text-2xl font-serif text-brand-gold/40">02</span>
+            </div>
+            <h3 class="text-xl font-serif text-white mb-2"><span class="es-text">Warm Intro Diplomática</span><span class="en-text">Diplomatic Warm Intro</span></h3>
+            <p class="text-xs text-brand-muted leading-relaxed font-light mb-3">
+              <span class="es-text">Sin cold calls. Red de embajadores honorarios (ex-diplomáticos, retired private bankers). Carta manuscrita del RD responsable. Idioma materno.</span>
+              <span class="en-text">No cold calls. Network of honorary ambassadors (former diplomats, retired private bankers). Handwritten letter from the responsible RD. Native language.</span>
+            </p>
+            <ul class="text-xs text-brand-sand space-y-1 font-mono">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-brand-gold"></i> <span class="es-text">Embajadores honorarios</span><span class="en-text">Honorary ambassadors</span></li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-brand-gold"></i> <span class="es-text">Carta manuscrita</span><span class="en-text">Handwritten letter</span></li>
+            </ul>
+          </div>
+          <div class="glass-panel p-6 rounded-2xl hover:border-brand-gold/40 transition group">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold group-hover:scale-110 transition"><i data-lucide="shield-check"></i></div>
+              <span class="text-2xl font-serif text-brand-gold/40">03</span>
+            </div>
+            <h3 class="text-xl font-serif text-white mb-2"><span class="es-text">NDA Bilateral Cifrado</span><span class="en-text">Encrypted Bilateral NDA</span></h3>
+            <p class="text-xs text-brand-muted leading-relaxed font-light mb-3">
+              <span class="es-text">NDA mutuo bajo ley Panamá + jurisdicción secundaria (Suiza o Inglaterra). Firma eIDAS. Canal Signal Business o ProtonMail Enterprise.</span>
+              <span class="en-text">Mutual NDA under Panama law + secondary jurisdiction (Switzerland or England). eIDAS signature. Signal Business or ProtonMail Enterprise channel.</span>
+            </p>
+            <ul class="text-xs text-brand-sand space-y-1 font-mono">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-brand-gold"></i> <span class="es-text">eIDAS cualificada</span><span class="en-text">Qualified eIDAS</span></li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-brand-gold"></i> <span class="es-text">End-to-end cifrado</span><span class="en-text">End-to-end encrypted</span></li>
+            </ul>
+          </div>
+          <div class="glass-panel p-6 rounded-2xl hover:border-brand-gold/40 transition group">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold group-hover:scale-110 transition"><i data-lucide="concierge-bell"></i></div>
+              <span class="text-2xl font-serif text-brand-gold/40">04</span>
+            </div>
+            <h3 class="text-xl font-serif text-white mb-2"><span class="es-text">Salón Privado F2F</span><span class="en-text">Private Salon F2F</span></h3>
+            <p class="text-xs text-brand-muted leading-relaxed font-light mb-3">
+              <span class="es-text">Encuentro físico en venue neutral premium: Baur au Lac Zúrich, Claridge's Londres, Crillon París, One&amp;Only The Palm Dubái. Presentación oral 45 min.</span>
+              <span class="en-text">Physical meeting at premium neutral venue: Baur au Lac Zurich, Claridge's London, Crillon Paris, One&amp;Only The Palm Dubai. 45-min oral presentation.</span>
+            </p>
+            <ul class="text-xs text-brand-sand space-y-1 font-mono">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-brand-gold"></i> <span class="es-text">Venues 5★ neutrales</span><span class="en-text">Neutral 5★ venues</span></li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-brand-gold"></i> <span class="es-text">Sin proyección digital</span><span class="en-text">No digital projection</span></li>
+            </ul>
+          </div>
+          <div class="glass-panel p-6 rounded-2xl hover:border-brand-gold/40 transition group">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold group-hover:scale-110 transition"><i data-lucide="file-text"></i></div>
+              <span class="text-2xl font-serif text-brand-gold/40">05</span>
+            </div>
+            <h3 class="text-xl font-serif text-white mb-2"><span class="es-text">Dossier Físico + Due Diligence</span><span class="en-text">Physical Dossier + Due Diligence</span></h3>
+            <p class="text-xs text-brand-muted leading-relaxed font-light mb-3">
+              <span class="es-text">Dossier físico numerado y sellado (edición limitada 800 ejemplares, papel Hahnemühle). KYC/AML bilateral. Suelo máximo 30 días validación.</span>
+              <span class="en-text">Numbered and sealed physical dossier (limited edition 800 copies, Hahnemühle paper). Bilateral KYC/AML. Maximum 30-day validation window.</span>
+            </p>
+            <ul class="text-xs text-brand-sand space-y-1 font-mono">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-brand-gold"></i> <span class="es-text">Edición numerada</span><span class="en-text">Numbered edition</span></li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-brand-gold"></i> <span class="es-text">Papel Hahnemühle</span><span class="en-text">Hahnemühle paper</span></li>
+            </ul>
+          </div>
+          <div class="glass-panel p-6 rounded-2xl hover:border-brand-gold/40 transition group">
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 rounded-xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold group-hover:scale-110 transition"><i data-lucide="handshake"></i></div>
+              <span class="text-2xl font-serif text-brand-gold/40">06</span>
+            </div>
+            <h3 class="text-xl font-serif text-white mb-2"><span class="es-text">SPA Fiduciario & Comisión 20%</span><span class="en-text">Trust SPA & 20% Commission</span></h3>
+            <p class="text-xs text-brand-muted leading-relaxed font-light mb-3">
+              <span class="es-text">Firma SPA ante fiduciario panameño (Ley 1/84). Desembolso 10% al fideicomiso. Liberación automática de comisión 20% ($50k) al intermediario.</span>
+              <span class="en-text">SPA signing before Panamanian trustee (Law 1/84). 10% deposit to trust. Automatic release of 20% commission ($50k) to intermediary.</span>
+            </p>
+            <ul class="text-xs text-brand-sand space-y-1 font-mono">
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-brand-gold"></i> <span class="es-text">Ley 1/84 Panamá</span><span class="en-text">Panama Law 1/84</span></li>
+              <li class="flex items-center gap-2"><i data-lucide="check" class="w-3 h-3 text-brand-gold"></i> <span class="es-text">Pago automático al cierre</span><span class="en-text">Auto-payment at closing</span></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 4: GEO -->
+    <section id="geo" class="section-anchor py-24 bg-brand-black">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium block mb-2">
+            <span class="es-text">Distribución Geográfica · 8.000 Family Offices</span>
+            <span class="en-text">Geographic Distribution · 8,000 Family Offices</span>
+          </span>
+          <h2 class="text-4xl font-serif text-white font-light mb-4">
+            <span class="es-text">Cuatro <span class="gold-gradient-text italic">macromercados</span></span>
+            <span class="en-text">Four <span class="gold-gradient-text italic">macro-markets</span></span>
+          </h2>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-10">
+          <div class="glass-panel p-6 rounded-2xl">
+            <h3 class="text-base font-serif text-white mb-1"><span class="es-text">Reparto por Macromercado</span><span class="en-text">Allocation by Macro-Market</span></h3>
+            <p class="text-[11px] text-brand-muted uppercase tracking-widest mb-4"><span class="es-text">8.000 FOs · 4 regiones</span><span class="en-text">8,000 FOs · 4 regions</span></p>
+            <div class="h-72 w-full"><canvas id="chartGeo"></canvas></div>
+          </div>
+          <div class="glass-panel p-6 rounded-2xl">
+            <h3 class="text-base font-serif text-white mb-1"><span class="es-text">Top 10 Países Clave</span><span class="en-text">Top 10 Key Countries</span></h3>
+            <p class="text-[11px] text-brand-muted uppercase tracking-widest mb-4"><span class="es-text">% del universo FO global</span><span class="en-text">% of global FO universe</span></p>
+            <div class="h-72 w-full"><canvas id="chartCountry"></canvas></div>
+          </div>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-sm">
+            <thead>
+              <tr class="border-b border-brand-gold/40">
+                <th class="text-left py-3 px-4 text-[10px] uppercase tracking-widest text-brand-gold font-medium"><span class="es-text">Reg.</span><span class="en-text">Reg.</span></th>
+                <th class="text-left py-3 px-4 text-[10px] uppercase tracking-widest text-brand-gold font-medium"><span class="es-text">Macromercado</span><span class="en-text">Macro-Market</span></th>
+                <th class="text-left py-3 px-4 text-[10px] uppercase tracking-widest text-brand-gold font-medium"><span class="es-text">Países Clave</span><span class="en-text">Key Countries</span></th>
+                <th class="text-right py-3 px-4 text-[10px] uppercase tracking-widest text-brand-gold font-medium"><span class="es-text">FOs</span><span class="en-text">FOs</span></th>
+                <th class="text-right py-3 px-4 text-[10px] uppercase tracking-widest text-brand-gold font-medium">%</th>
+              </tr>
+            </thead>
+            <tbody class="text-brand-sand font-light">
+              <tr class="border-b border-brand-border/40 hover:bg-brand-card/40 transition"><td class="py-3 px-4 font-mono text-brand-gold">EU</td><td class="py-3 px-4"><strong class="text-white"><span class="es-text">Europa</span><span class="en-text">Europe</span></strong></td><td class="py-3 px-4 text-xs"><span class="es-text">Suiza, Mónaco, Londres, Madrid, París, Frankfurt</span><span class="en-text">Switzerland, Monaco, London, Madrid, Paris, Frankfurt</span></td><td class="py-3 px-4 text-right font-mono">2.800</td><td class="py-3 px-4 text-right font-mono text-brand-gold">35,0%</td></tr>
+              <tr class="border-b border-brand-border/40 hover:bg-brand-card/40 transition"><td class="py-3 px-4 font-mono text-brand-gold">NA</td><td class="py-3 px-4"><strong class="text-white"><span class="es-text">América del Norte</span><span class="en-text">North America</span></strong></td><td class="py-3 px-4 text-xs"><span class="es-text">Nueva York, Miami, Los Ángeles, Toronto, Greenwich</span><span class="en-text">New York, Miami, Los Angeles, Toronto, Greenwich</span></td><td class="py-3 px-4 text-right font-mono">2.400</td><td class="py-3 px-4 text-right font-mono text-brand-gold">30,0%</td></tr>
+              <tr class="border-b border-brand-border/40 hover:bg-brand-card/40 transition"><td class="py-3 px-4 font-mono text-brand-gold">MA</td><td class="py-3 px-4"><strong class="text-white"><span class="es-text">MENA & Asia</span><span class="en-text">MENA & Asia</span></strong></td><td class="py-3 px-4 text-xs"><span class="es-text">Dubái, Riad, Hong Kong, Singapur, Tokio, Abu Dhabi</span><span class="en-text">Dubai, Riyadh, Hong Kong, Singapore, Tokyo, Abu Dhabi</span></td><td class="py-3 px-4 text-right font-mono">1.600</td><td class="py-3 px-4 text-right font-mono text-brand-gold">20,0%</td></tr>
+              <tr class="border-b border-brand-border/40 hover:bg-brand-card/40 transition"><td class="py-3 px-4 font-mono text-brand-gold">LA</td><td class="py-3 px-4"><strong class="text-white"><span class="es-text">LATAM</span><span class="en-text">LATAM</span></strong></td><td class="py-3 px-4 text-xs"><span class="es-text">CDMX, São Paulo, Bogotá, Buenos Aires, Santiago</span><span class="en-text">Mexico City, São Paulo, Bogotá, Buenos Aires, Santiago</span></td><td class="py-3 px-4 text-right font-mono">1.200</td><td class="py-3 px-4 text-right font-mono text-brand-gold">15,0%</td></tr>
+              <tr class="bg-brand-gold/5"><td colspan="3" class="py-3 px-4"><strong class="text-white"><span class="es-text">TOTAL UNIVERSO FAMILY OFFICES</span><span class="en-text">TOTAL FAMILY OFFICE UNIVERSE</span></strong></td><td class="py-3 px-4 text-right font-mono text-white font-bold">8.000</td><td class="py-3 px-4 text-right font-mono text-brand-gold font-bold">100%</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 5: AUDITORÍA RRHH -->
+    <section id="team" class="section-anchor py-24 bg-brand-dark border-t border-b border-brand-border/40">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium block mb-2">
+            <span class="es-text">Auditoría de Personal · Modelo Híbrido</span>
+            <span class="en-text">Personnel Audit · Hybrid Model</span>
+          </span>
+          <h2 class="text-4xl font-serif text-white font-light mb-4">
+            <span class="es-text">30 profesionales · <span class="gold-gradient-text italic">22 in-house + 8 IROs</span></span>
+            <span class="en-text">30 professionals · <span class="gold-gradient-text italic">22 in-house + 8 IROs</span></span>
+          </h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs">
+            <thead>
+              <tr class="border-b border-brand-gold/40">
+                <th class="text-left py-3 px-3 text-[10px] uppercase tracking-widest text-brand-gold font-medium"><span class="es-text">Cód.</span><span class="en-text">Code</span></th>
+                <th class="text-left py-3 px-3 text-[10px] uppercase tracking-widest text-brand-gold font-medium"><span class="es-text">Perfil</span><span class="en-text">Profile</span></th>
+                <th class="text-left py-3 px-3 text-[10px] uppercase tracking-widest text-brand-gold font-medium"><span class="es-text">Familia</span><span class="en-text">Family</span></th>
+                <th class="text-center py-3 px-3 text-[10px] uppercase tracking-widest text-brand-gold font-medium">FTEs</th>
+                <th class="text-left py-3 px-3 text-[10px] uppercase tracking-widest text-brand-gold font-medium"><span class="es-text">Modalidad</span><span class="en-text">Mode</span></th>
+                <th class="text-right py-3 px-3 text-[10px] uppercase tracking-widest text-brand-gold font-medium"><span class="es-text">Salario/Año</span><span class="en-text">Salary/Year</span></th>
+              </tr>
+            </thead>
+            <tbody class="text-brand-sand font-light font-mono">
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-01</td><td class="py-2 px-3 text-white">Head of Sales &amp; Capital Introduction</td><td class="py-2 px-3">Comercial</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$300.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-02</td><td class="py-2 px-3 text-white">Relationship Director Europa</td><td class="py-2 px-3">Comercial</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$250.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-03</td><td class="py-2 px-3 text-white">Relationship Director N. América</td><td class="py-2 px-3">Comercial</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$250.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-04</td><td class="py-2 px-3 text-white">Relationship Director MENA &amp; Asia</td><td class="py-2 px-3">Comercial</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$250.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-05</td><td class="py-2 px-3 text-white">Relationship Director LATAM</td><td class="py-2 px-3">Comercial</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$250.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-06</td><td class="py-2 px-3 text-white">Concierge Member Experience</td><td class="py-2 px-3">Comercial</td><td class="py-2 px-3 text-center">2</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$80.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30 bg-brand-burgundy/10"><td class="py-2 px-3 text-brand-gold">ROL-07</td><td class="py-2 px-3 text-white">IRO Regional (2 por macromercado)</td><td class="py-2 px-3">Comercial</td><td class="py-2 px-3 text-center">8</td><td class="py-2 px-3 text-brand-gold">Outsourced</td><td class="py-2 px-3 text-right">$120.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-08</td><td class="py-2 px-3 text-white">Chief Marketing Officer (CMO)</td><td class="py-2 px-3">Marketing</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$250.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-09</td><td class="py-2 px-3 text-white">Brand Strategist &amp; Art Director</td><td class="py-2 px-3">Marketing</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$150.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-10</td><td class="py-2 px-3 text-white">Content Creator Bilingüe</td><td class="py-2 px-3">Marketing</td><td class="py-2 px-3 text-center">2</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$80.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-11</td><td class="py-2 px-3 text-white">Event Manager · Salones Privados</td><td class="py-2 px-3">Marketing</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$120.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-12</td><td class="py-2 px-3 text-white">MLRO · Money Laundering Reporting Officer</td><td class="py-2 px-3">Compliance</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$200.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-13</td><td class="py-2 px-3 text-white">KYC / AML Officer (FATCA/CRS)</td><td class="py-2 px-3">Compliance</td><td class="py-2 px-3 text-center">2</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$100.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-14</td><td class="py-2 px-3 text-white">Due Diligence Analyst</td><td class="py-2 px-3">Compliance</td><td class="py-2 px-3 text-center">2</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$90.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-15</td><td class="py-2 px-3 text-white">Sales Operations Manager</td><td class="py-2 px-3">Soporte</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$120.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-16</td><td class="py-2 px-3 text-white">CRM &amp; Pipeline Manager</td><td class="py-2 px-3">Soporte</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$90.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-17</td><td class="py-2 px-3 text-white">Data Analyst · BI &amp; Funnel</td><td class="py-2 px-3">Soporte</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$80.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-18</td><td class="py-2 px-3 text-white">Coordinador Bilingüe ES/EN</td><td class="py-2 px-3">Soporte</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$70.000</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">ROL-19</td><td class="py-2 px-3 text-white">Executive Assistant · Head of Sales</td><td class="py-2 px-3">Soporte</td><td class="py-2 px-3 text-center">1</td><td class="py-2 px-3">In-house</td><td class="py-2 px-3 text-right">$60.000</td></tr>
+              <tr class="bg-brand-gold/10"><td colspan="3" class="py-3 px-3 text-white font-bold"><span class="es-text">TOTAL EQUIPO COMERCIAL</span><span class="en-text">TOTAL COMMERCIAL TEAM</span></td><td class="py-3 px-3 text-center text-white font-bold">30</td><td class="py-3 px-3 text-brand-gold"><span class="es-text">22 in-house + 8 out.</span><span class="en-text">22 in-house + 8 out.</span></td><td class="py-3 px-3 text-right text-brand-gold font-bold">$4.100.000/año</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 6: COMISIONES -->
+    <section id="commissions" class="section-anchor py-24 bg-brand-black">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium block mb-2">
+            <span class="es-text">Modelo Económico · Comisión 20%</span>
+            <span class="en-text">Economic Model · 20% Commission</span>
+          </span>
+          <h2 class="text-4xl font-serif text-white font-light mb-4">
+            <span class="es-text">$50.000 USD por <span class="gold-gradient-text italic">cada cierre</span></span>
+            <span class="en-text">$50,000 USD per <span class="gold-gradient-text italic">every closing</span></span>
+          </h2>
+        </div>
+        <div class="glass-strong p-8 rounded-2xl mb-10 border border-brand-gold/30 relative overflow-hidden">
+          <div class="absolute -top-12 -right-12 w-48 h-48 bg-brand-gold/10 rounded-full blur-3xl"></div>
+          <div class="text-xs font-mono text-brand-gold uppercase tracking-widest mb-2">
+            <span class="es-text">Estructura única · Sin escalones · Pagos automatizados</span>
+            <span class="en-text">Single structure · No tiers · Automated payouts</span>
+          </div>
+          <h3 class="text-2xl font-serif text-white mb-4">
+            <span class="es-text">Cada Membresía Executive cerrada = $50.000 USD netos al intermediario</span>
+            <span class="en-text">Each closed Executive Membership = $50,000 USD net to the intermediary</span>
+          </h3>
+          <div class="text-3xl font-serif italic gold-gradient-text my-6 py-4 border-t border-b border-brand-gold/20 text-center">$250.000 × 20% = $50.000 USD</div>
+          <p class="text-sm text-brand-muted leading-relaxed font-light">
+            <span class="es-text">La comisión del 20% se libera de forma <strong class="text-brand-sand font-normal">automática y simultánea</strong> al desembolso del 10% inicial del cliente al fideicomiso panameño (Ley 1/84). Pago a cuenta segregada designada previamente en el SPA. Sin retención ni clawback.</span>
+            <span class="en-text">The 20% commission is released <strong class="text-brand-sand font-normal">automatically and simultaneously</strong> upon the client's 10% initial deposit into the Panamanian trust (Law 1/84). Payment to segregated account previously designated in the SPA. No retention or clawback.</span>
+          </p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="glass-panel p-6 rounded-2xl">
+            <h3 class="text-base font-serif text-white mb-4"><span class="es-text">Escenarios de Conversión · 8.000 FOs</span><span class="en-text">Conversion Scenarios · 8,000 FOs</span></h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs">
+                <thead><tr class="border-b border-brand-gold/40">
+                  <th class="text-left py-2 px-2 text-[10px] uppercase text-brand-gold"><span class="es-text">Esc.</span><span class="en-text">Scen.</span></th>
+                  <th class="text-left py-2 px-2 text-[10px] uppercase text-brand-gold"><span class="es-text">Hipótesis</span><span class="en-text">Hypothesis</span></th>
+                  <th class="text-right py-2 px-2 text-[10px] uppercase text-brand-gold"><span class="es-text">Memb.</span><span class="en-text">Memb.</span></th>
+                  <th class="text-right py-2 px-2 text-[10px] uppercase text-brand-gold"><span class="es-text">Comisión</span><span class="en-text">Commission</span></th>
+                </tr></thead>
+                <tbody class="text-brand-sand font-light font-mono">
+                  <tr class="border-b border-brand-border/30 bg-brand-ok/10"><td class="py-2 px-2 text-brand-gold">A</td><td class="py-2 px-2"><span class="es-text">Conservador (1,5%)</span><span class="en-text">Conservative (1.5%)</span></td><td class="py-2 px-2 text-right">120</td><td class="py-2 px-2 text-right text-white font-bold">$6.000.000</td></tr>
+                  <tr class="border-b border-brand-border/30"><td class="py-2 px-2 text-brand-gold">B</td><td class="py-2 px-2"><span class="es-text">Realista (2,5%)</span><span class="en-text">Realistic (2.5%)</span></td><td class="py-2 px-2 text-right">200</td><td class="py-2 px-2 text-right text-white font-bold">$10.000.000</td></tr>
+                  <tr class="border-b border-brand-border/30"><td class="py-2 px-2 text-brand-gold">C</td><td class="py-2 px-2"><span class="es-text">Ambicioso (5,0%)</span><span class="en-text">Ambitious (5.0%)</span></td><td class="py-2 px-2 text-right">400</td><td class="py-2 px-2 text-right text-white font-bold">$20.000.000</td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="glass-panel p-6 rounded-2xl">
+            <h3 class="text-base font-serif text-white mb-4"><span class="es-text">Comparativa Visual de Escenarios</span><span class="en-text">Visual Scenario Comparison</span></h3>
+            <div class="h-64 w-full"><canvas id="chartScenarios"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 7: PRESUPUESTO COMERCIAL -->
+    <section id="budget" class="section-anchor py-24 bg-brand-dark border-t border-b border-brand-border/40">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium block mb-2">
+            <span class="es-text">Presupuesto Comercial · 36 meses</span>
+            <span class="en-text">Commercial Budget · 36 months</span>
+          </span>
+          <h2 class="text-4xl font-serif text-white font-light mb-4">
+            <span class="es-text">$27,9M · <span class="gold-gradient-text italic">3,72% del CAPEX</span></span>
+            <span class="en-text">$27.9M · <span class="gold-gradient-text italic">3.72% of CAPEX</span></span>
+          </h2>
+          <p class="text-sm text-brand-muted leading-relaxed font-light">
+            <span class="es-text">Cubierto íntegramente por el superávit fiduciario libre ($1.500M). Sin apalancamiento bancario adicional.</span>
+            <span class="en-text">Fully covered by the free fiduciary surplus ($1,500M). No additional bank leverage.</span>
+          </p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div class="glass-panel p-6 rounded-2xl">
+            <h3 class="text-base font-serif text-white mb-4"><span class="es-text">Partidas Presupuestarias</span><span class="en-text">Budget Items</span></h3>
+            <div class="overflow-x-auto">
+              <table class="w-full text-xs">
+                <thead><tr class="border-b border-brand-gold/40">
+                  <th class="text-left py-2 px-2 text-[10px] uppercase text-brand-gold"><span class="es-text">Cód.</span><span class="en-text">Code</span></th>
+                  <th class="text-left py-2 px-2 text-[10px] uppercase text-brand-gold"><span class="es-text">Partida</span><span class="en-text">Item</span></th>
+                  <th class="text-right py-2 px-2 text-[10px] uppercase text-brand-gold">A1</th>
+                  <th class="text-right py-2 px-2 text-[10px] uppercase text-brand-gold">A2</th>
+                  <th class="text-right py-2 px-2 text-[10px] uppercase text-brand-gold">A3</th>
+                </tr></thead>
+                <tbody class="text-brand-sand font-light font-mono">
+                  <tr class="border-b border-brand-border/30"><td class="py-2 px-2 text-brand-gold">OPE-01</td><td class="py-2 px-2"><span class="es-text">Nóminas In-house (22)</span><span class="en-text">In-house Payroll (22)</span></td><td class="py-2 px-2 text-right">$3,14M</td><td class="py-2 px-2 text-right">$3,14M</td><td class="py-2 px-2 text-right">$3,14M</td></tr>
+                  <tr class="border-b border-brand-border/30"><td class="py-2 px-2 text-brand-gold">OPE-02</td><td class="py-2 px-2"><span class="es-text">IROs Outsourced (8)</span><span class="en-text">Outsourced IROs (8)</span></td><td class="py-2 px-2 text-right">$0,96M</td><td class="py-2 px-2 text-right">$0,96M</td><td class="py-2 px-2 text-right">$0,96M</td></tr>
+                  <tr class="border-b border-brand-border/30"><td class="py-2 px-2 text-brand-gold">OPE-03</td><td class="py-2 px-2"><span class="es-text">Eventos &amp; Salones</span><span class="en-text">Events &amp; Salons</span></td><td class="py-2 px-2 text-right">$1,50M</td><td class="py-2 px-2 text-right">$1,50M</td><td class="py-2 px-2 text-right">$1,50M</td></tr>
+                  <tr class="border-b border-brand-border/30"><td class="py-2 px-2 text-brand-gold">OPE-04</td><td class="py-2 px-2"><span class="es-text">Viajes &amp; Representación</span><span class="en-text">Travel &amp; Representation</span></td><td class="py-2 px-2 text-right">$0,80M</td><td class="py-2 px-2 text-right">$0,80M</td><td class="py-2 px-2 text-right">$0,80M</td></tr>
+                  <tr class="border-b border-brand-border/30"><td class="py-2 px-2 text-brand-gold">OPE-05</td><td class="py-2 px-2"><span class="es-text">Marketing &amp; Dossier</span><span class="en-text">Marketing &amp; Dossier</span></td><td class="py-2 px-2 text-right">$0,40M</td><td class="py-2 px-2 text-right">$0,40M</td><td class="py-2 px-2 text-right">$0,40M</td></tr>
+                  <tr class="border-b border-brand-border/30"><td class="py-2 px-2 text-brand-gold">OPE-06</td><td class="py-2 px-2">CRM &amp; Tech Stack</td><td class="py-2 px-2 text-right">$0,20M</td><td class="py-2 px-2 text-right">$0,20M</td><td class="py-2 px-2 text-right">$0,20M</td></tr>
+                  <tr class="border-b border-brand-border/30"><td class="py-2 px-2 text-brand-gold">OPE-07</td><td class="py-2 px-2"><span class="es-text">Compliance &amp; Legal</span><span class="en-text">Compliance &amp; Legal</span></td><td class="py-2 px-2 text-right">$0,30M</td><td class="py-2 px-2 text-right">$0,30M</td><td class="py-2 px-2 text-right">$0,30M</td></tr>
+                  <tr class="border-b border-brand-border/30 bg-brand-burgundy/10"><td class="py-2 px-2 text-brand-gold">OPE-08</td><td class="py-2 px-2"><span class="es-text">Comisiones (Esc. A 1,5%)</span><span class="en-text">Commissions (Scen. A 1.5%)</span></td><td class="py-2 px-2 text-right">$0</td><td class="py-2 px-2 text-right">$2,00M</td><td class="py-2 px-2 text-right">$4,00M</td></tr>
+                  <tr class="bg-brand-gold/10"><td colspan="2" class="py-2 px-2 text-white font-bold"><span class="es-text">TOTAL/AÑO</span><span class="en-text">TOTAL/YEAR</span></td><td class="py-2 px-2 text-right text-brand-gold font-bold">$7,30M</td><td class="py-2 px-2 text-right text-brand-gold font-bold">$9,30M</td><td class="py-2 px-2 text-right text-brand-gold font-bold">$11,30M</td></tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="mt-4 p-3 bg-brand-gold/5 border border-brand-gold/20 rounded-lg text-center">
+              <span class="text-[10px] text-brand-muted uppercase tracking-widest"><span class="es-text">Gran Total 36 meses</span><span class="en-text">36-month Grand Total</span></span>
+              <div class="text-2xl font-serif text-brand-gold font-bold mt-1">$27.900.000</div>
+            </div>
+          </div>
+          <div class="glass-panel p-6 rounded-2xl">
+            <h3 class="text-base font-serif text-white mb-4"><span class="es-text">Estructura del Presupuesto</span><span class="en-text">Budget Structure</span></h3>
+            <div class="h-80 w-full"><canvas id="chartBudget"></canvas></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 8: CAPEX -->
+    <section id="capex" class="section-anchor py-24 bg-brand-black">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium block mb-2">
+            <span class="es-text">Presupuesto Analítico · 10 Capítulos de Obra</span>
+            <span class="en-text">Analytical Budget · 10 Work Chapters</span>
+          </span>
+          <h2 class="text-4xl font-serif text-white font-light mb-4">
+            <span class="es-text">CAPEX Consolidado <span class="gold-gradient-text italic">$750M</span></span>
+            <span class="en-text">Consolidated CAPEX <span class="gold-gradient-text italic">$750M</span></span>
+          </h2>
+        </div>
+        <div class="overflow-x-auto">
+          <table class="w-full text-xs">
+            <thead>
+              <tr class="border-b border-brand-gold/40">
+                <th class="text-left py-3 px-3 text-[10px] uppercase tracking-widest text-brand-gold"><span class="es-text">Cód.</span><span class="en-text">Code</span></th>
+                <th class="text-left py-3 px-3 text-[10px] uppercase tracking-widest text-brand-gold"><span class="es-text">Capítulo</span><span class="en-text">Chapter</span></th>
+                <th class="text-left py-3 px-3 text-[10px] uppercase tracking-widest text-brand-gold"><span class="es-text">Alcance</span><span class="en-text">Scope</span></th>
+                <th class="text-right py-3 px-3 text-[10px] uppercase tracking-widest text-brand-gold"><span class="es-text">Coste ($ USD)</span><span class="en-text">Cost ($ USD)</span></th>
+              </tr>
+            </thead>
+            <tbody class="text-brand-sand font-light font-mono">
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">CAP-01</td><td class="py-2 px-3 text-white"><span class="es-text">Adquisición de Suelo</span><span class="en-text">Land Acquisition</span></td><td class="py-2 px-3 text-[11px]"><span class="es-text">Isla La Porcada + Finca Continente</span><span class="en-text">Isla La Porcada + Mainland Estate</span></td><td class="py-2 px-3 text-right">$20.000.000,00</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">CAP-02</td><td class="py-2 px-3 text-white"><span class="es-text">Núcleo Hotelero &amp; Salones</span><span class="en-text">Hotel Core &amp; Salons</span></td><td class="py-2 px-3 text-[11px]">20.000 m² (100 Suites 100m² + BoH)</td><td class="py-2 px-3 text-right">$185.345.820,50</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">CAP-03</td><td class="py-2 px-3 text-white"><span class="es-text">Villas de Playa</span><span class="en-text">Beachfront Villas</span></td><td class="py-2 px-3 text-[11px]">25.000 m² (50 Villas 500m² c/u)</td><td class="py-2 px-3 text-right">$204.850.115,25</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">CAP-04</td><td class="py-2 px-3 text-white">Overwater Cabins &amp; Clubhouse</td><td class="py-2 px-3 text-[11px]">12.500 m² (7,5k villas + 5k clubhouse)</td><td class="py-2 px-3 text-right">$104.920.450,75</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">CAP-05</td><td class="py-2 px-3 text-white"><span class="es-text">Centro Longevidad (JANU) &amp; Casino</span><span class="en-text">Longevity Center (JANU) &amp; Casino</span></td><td class="py-2 px-3 text-[11px]">10.000 m² (6k spa + 4k casino)</td><td class="py-2 px-3 text-right">$74.615.330,40</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">CAP-06</td><td class="py-2 px-3 text-white"><span class="es-text">Villa Staff &amp; Hospital 50 Camas</span><span class="en-text">Staff Villa &amp; 50-Bed Hospital</span></td><td class="py-2 px-3 text-[11px]">10.000 m² (personal + hospital)</td><td class="py-2 px-3 text-right">$42.000.000,00</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">CAP-07</td><td class="py-2 px-3 text-white"><span class="es-text">Puente 165m, Marina &amp; STOL</span><span class="en-text">165m Bridge, Marina &amp; STOL</span></td><td class="py-2 px-3 text-[11px]"><span class="es-text">Conectividad insular &amp; marina VIP</span><span class="en-text">Island connectivity &amp; VIP marina</span></td><td class="py-2 px-3 text-right">$38.180.220,10</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">CAP-08</td><td class="py-2 px-3 text-white"><span class="es-text">Ecoducto Teak Wildlife</span><span class="en-text">Teak Wildlife Eco-duct</span></td><td class="py-2 px-3 text-[11px]"><span class="es-text">Pasarela 5,8 km × 5,5 m (Teca Panamá)</span><span class="en-text">5.8 km × 5.5 m walkway (Panama teak)</span></td><td class="py-2 px-3 text-right">$25.125.063,00</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">CAP-09</td><td class="py-2 px-3 text-white"><span class="es-text">Ingeniería &amp; Proyecto Denniston</span><span class="en-text">Engineering &amp; Denniston Project</span></td><td class="py-2 px-3 text-[11px]"><span class="es-text">Diseño ejecutivo &amp; permisos ambientales</span><span class="en-text">Executive design &amp; environmental permits</span></td><td class="py-2 px-3 text-right">$22.550.000,00</td></tr>
+              <tr class="border-b border-brand-border/30 hover:bg-brand-card/30"><td class="py-2 px-3 text-brand-gold">CAP-10</td><td class="py-2 px-3 text-white"><span class="es-text">Fondo Contingencias &amp; Fiduciario</span><span class="en-text">Contingency &amp; Fiduciary Fund</span></td><td class="py-2 px-3 text-[11px]"><span class="es-text">Reservas de liquidez y contingencias</span><span class="en-text">Liquidity reserves and contingencies</span></td><td class="py-2 px-3 text-right">$12.412.999,00</td></tr>
+              <tr class="bg-brand-gold/10"><td colspan="2" class="py-3 px-3 text-white font-bold"><span class="es-text">TOTAL CAPEX</span><span class="en-text">TOTAL CAPEX</span></td><td class="py-3 px-3 text-[11px]"><span class="es-text">77.500 m² edificados + Infraestructuras</span><span class="en-text">77,500 m² built + Infrastructure</span></td><td class="py-3 px-3 text-right text-brand-gold font-bold">$750.000.000,00</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 9: CRONOGRAMA -->
+    <section id="schedule" class="section-anchor py-24 bg-brand-dark border-t border-b border-brand-border/40">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-10">
+          <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium block mb-2">
+            <span class="es-text">Cronograma Maestro · 36 Meses</span>
+            <span class="en-text">Master Schedule · 36 Months</span>
+          </span>
+          <h2 class="text-4xl font-serif text-white font-light mb-4">
+            <span class="es-text">Fase 0 + Fase 1 · <span class="gold-gradient-text italic">Gantt paralelo</span></span>
+            <span class="en-text">Phase 0 + Phase 1 · <span class="gold-gradient-text italic">Parallel Gantt</span></span>
+          </h2>
+        </div>
+        <div class="glass-panel p-6 rounded-2xl">
+          <div class="h-96 w-full"><canvas id="chartGantt"></canvas></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 10: SPV -->
+    <section id="spv" class="section-anchor py-24 bg-brand-black">
+      <div class="max-w-7xl mx-auto px-6">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium block mb-2">
+            <span class="es-text">Estructuración Patrimonial UHNWI</span>
+            <span class="en-text">UHNWI Wealth Structuring</span>
+          </span>
+          <h2 class="text-4xl font-serif text-white font-light mb-4">
+            <span class="es-text">SPV &amp; <span class="gold-gradient-text italic">Fideicomiso Ley 1/84</span></span>
+            <span class="en-text">SPV &amp; <span class="gold-gradient-text italic">Trust Law 1/84</span></span>
+          </h2>
+          <p class="text-sm text-brand-muted leading-relaxed font-light">
+            <span class="es-text">Transmisión mediante transferencia de acciones de una SPV internacional · confidencialidad absoluta · minimización fiscal · gobernanza familiar simplificada.</span>
+            <span class="en-text">Transfer via international SPV share assignment · absolute confidentiality · tax minimization · simplified family governance.</span>
+          </p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+          <div class="space-y-4">
+            <div class="p-4 rounded-xl bg-brand-card/50 border border-brand-border/60 flex items-start gap-4">
+              <div class="p-2 rounded-lg bg-brand-gold/10 text-brand-gold mt-1"><i data-lucide="shield-check" class="w-5 h-5"></i></div>
+              <div>
+                <h4 class="text-sm font-serif text-white"><span class="es-text">Privacidad &amp; Protocolo Familiar</span><span class="en-text">Privacy &amp; Family Protocol</span></h4>
+                <p class="text-xs text-brand-muted mt-1 font-light"><span class="es-text">Compatibilidad total con Trusts, Fundaciones Privadas y Single-Family Offices.</span><span class="en-text">Full compatibility with Trusts, Private Foundations and Single-Family Offices.</span></p>
+              </div>
+            </div>
+            <div class="p-4 rounded-xl bg-brand-card/50 border border-brand-border/60 flex items-start gap-4">
+              <div class="p-2 rounded-lg bg-brand-gold/10 text-brand-gold mt-1"><i data-lucide="coins" class="w-5 h-5"></i></div>
+              <div>
+                <h4 class="text-sm font-serif text-white"><span class="es-text">Repatriación de Dividendos (4,5%)</span><span class="en-text">Dividend Repatriation (4.5%)</span></h4>
+                <p class="text-xs text-brand-muted mt-1 font-light"><span class="es-text">Estructura tributaria optimizada para la recepción trimestral del rendimiento Aman.</span><span class="en-text">Optimized tax structure for quarterly reception of Aman yield.</span></p>
+              </div>
+            </div>
+            <div class="p-4 rounded-xl bg-brand-card/50 border border-brand-border/60 flex items-start gap-4">
+              <div class="p-2 rounded-lg bg-brand-gold/10 text-brand-gold mt-1"><i data-lucide="file-text" class="w-5 h-5"></i></div>
+              <div>
+                <h4 class="text-sm font-serif text-white"><span class="es-text">Due Diligence Completado</span><span class="en-text">Due Diligence Completed</span></h4>
+                <p class="text-xs text-brand-muted mt-1 font-light"><span class="es-text">Títulos, licencias turísticas y auditoría Aman disponibles tras NDA.</span><span class="en-text">Titles, tourism licenses and Aman audit available after NDA.</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="glass-panel p-8 rounded-2xl border border-brand-gold/20">
+            <div class="text-xs font-mono text-brand-gold uppercase tracking-widest mb-6 text-center"><span class="es-text">Estructura de la Operación</span><span class="en-text">Operation Structure</span></div>
+            <div class="space-y-4">
+              <div class="p-4 rounded-xl bg-brand-black border border-brand-border text-center">
+                <span class="text-[10px] text-brand-muted block uppercase"><span class="es-text">Inversor / Family Office</span><span class="en-text">Investor / Family Office</span></span>
+                <div class="text-sm font-serif text-white font-medium mt-0.5"><span class="es-text">Holding / Trust Internacional</span><span class="en-text">International Holding / Trust</span></div>
+              </div>
+              <div class="flex justify-center text-brand-gold"><i data-lucide="arrow-down" class="w-5 h-5 animate-bounce"></i></div>
+              <div class="p-4 rounded-xl bg-brand-gold/10 border border-brand-gold/40 text-center">
+                <span class="text-[10px] text-brand-gold block uppercase font-medium"><span class="es-text">Vehículo Exclusivo</span><span class="en-text">Exclusive Vehicle</span></span>
+                <div class="text-base font-serif text-white font-semibold mt-0.5">SPV Propietaria · Membresía/Villa</div>
+              </div>
+              <div class="flex justify-center text-brand-gold"><i data-lucide="arrow-down" class="w-5 h-5 animate-bounce"></i></div>
+              <div class="p-4 rounded-xl bg-brand-burgundy/15 border border-brand-burgundy/40 text-center">
+                <span class="text-[10px] text-brand-burgundy block uppercase font-medium"><span class="es-text" style="color:#c67890">Fideicomiso Panamá</span><span class="en-text" style="color:#c67890">Panama Trust</span></span>
+                <div class="text-sm font-serif text-white font-semibold mt-0.5">Ley 1/84 · Cuenta Segregada</div>
+              </div>
+              <div class="grid grid-cols-2 gap-3 mt-3">
+                <div class="p-3 rounded-lg bg-brand-black/60 border border-brand-border text-center">
+                  <span class="text-[9px] text-brand-muted block"><span class="es-text">Garantía Flujo</span><span class="en-text">Flow Guarantee</span></span>
+                  <span class="text-xs font-serif text-brand-sand">4,5% Aman Yield</span>
+                </div>
+                <div class="p-3 rounded-lg bg-brand-black/60 border border-brand-border text-center">
+                  <span class="text-[9px] text-brand-muted block"><span class="es-text">Operador Resort</span><span class="en-text">Resort Operator</span></span>
+                  <span class="text-xs font-serif text-brand-sand">Aman Management</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SECCIÓN 11: NDA FORM -->
+    <section id="nda" class="section-anchor py-24 bg-brand-dark border-t border-b border-brand-border/40">
+      <div class="max-w-4xl mx-auto px-6">
+        <div class="glass-strong p-8 md:p-12 rounded-3xl border border-brand-gold/30 shadow-2xl relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-64 h-64 bg-brand-gold/5 rounded-full blur-3xl pointer-events-none"></div>
+          <div class="text-center mb-10">
+            <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-medium block mb-2"><span class="es-text">Acceso Reservado</span><span class="en-text">Restricted Access</span></span>
+            <h2 class="text-3xl md:text-4xl font-serif text-white font-light mb-3"><span class="es-text">Solicitar Memorandum &amp; NDA Privado</span><span class="en-text">Request Memorandum &amp; Private NDA</span></h2>
+            <p class="text-xs text-brand-muted font-light max-w-lg mx-auto">
+              <span class="es-text">Complete el formulario para recibir el dossier completo de due diligence y coordinar una presentación confidencial con nuestro Wealth Advisory.</span>
+              <span class="en-text">Complete the form to receive the full due diligence dossier and schedule a confidential presentation with our Wealth Advisory.</span>
+            </p>
+          </div>
+          <form id="ndaForm" class="space-y-6">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs uppercase tracking-wider text-brand-muted mb-2"><span class="es-text">Nombre Completo / Representante</span><span class="en-text">Full Name / Representative</span></label>
+                <input type="text" required placeholder="Lord / Dr. / Sr. Alexander Wright" class="w-full px-4 py-3 bg-brand-black border border-brand-border rounded-xl text-white text-sm focus:outline-none focus:border-brand-gold">
+              </div>
+              <div>
+                <label class="block text-xs uppercase tracking-wider text-brand-muted mb-2"><span class="es-text">Family Office / Entidad</span><span class="en-text">Family Office / Entity</span></label>
+                <input type="text" required placeholder="Wright Capital Management" class="w-full px-4 py-3 bg-brand-black border border-brand-border rounded-xl text-white text-sm focus:outline-none focus:border-brand-gold">
+              </div>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div>
+                <label class="block text-xs uppercase tracking-wider text-brand-muted mb-2"><span class="es-text">Correo Corporativo</span><span class="en-text">Corporate Email</span></label>
+                <input type="email" required placeholder="v.wright@wrightfamilyoffice.com" class="w-full px-4 py-3 bg-brand-black border border-brand-border rounded-xl text-white text-sm focus:outline-none focus:border-brand-gold">
+              </div>
+              <div>
+                <label class="block text-xs uppercase tracking-wider text-brand-muted mb-2"><span class="es-text">Perfil Inversor</span><span class="en-text">Investor Profile</span></label>
+                <select class="w-full px-4 py-3 bg-brand-black border border-brand-border rounded-xl text-white text-sm focus:outline-none focus:border-brand-gold">
+                  <option><span class="es-text">Single Family Office (SFO)</span><span class="en-text">Single Family Office (SFO)</span></option>
+                  <option>Multi-Family Office (MFO)</option>
+                  <option>UHNWI (<span class="es-text">Inversor Particular</span><span class="en-text">Private Investor</span>)</option>
+                  <option><span class="es-text">Banca Privada / Advisor</span><span class="en-text">Private Banking / Advisor</span></option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label class="block text-xs uppercase tracking-wider text-brand-muted mb-2"><span class="es-text">Comentarios / Requerimientos</span><span class="en-text">Comments / Requirements</span></label>
+              <textarea rows="3" placeholder="<span class='es-text'>Indique si requiere visita al emplazamiento en aviación privada o estructuración SPV...</span><span class='en-text'>Indicate if you require private aviation site visit or SPV structuring...</span>" class="w-full px-4 py-3 bg-brand-black border border-brand-border rounded-xl text-white text-sm focus:outline-none focus:border-brand-gold"></textarea>
+            </div>
+            <div class="flex items-center gap-3">
+              <input type="checkbox" id="ndaConsent" required class="rounded border-brand-border bg-brand-black text-brand-gold focus:ring-brand-gold">
+              <label for="ndaConsent" class="text-xs text-brand-muted font-light"><span class="es-text">Acepto los términos de confidencialidad y la emisión del acuerdo NCNDA.</span><span class="en-text">I accept the confidentiality terms and the issuance of the NCNDA agreement.</span></label>
+            </div>
+            <button type="submit" class="w-full py-4 bg-gradient-to-r from-brand-gold via-brand-goldLight to-brand-goldDark text-black font-medium text-sm tracking-widest uppercase rounded-xl hover:opacity-90 transition shadow-xl shadow-brand-gold/10">
+              <span class="es-text">Enviar Solicitud de Dossier Privado</span>
+              <span class="en-text">Submit Private Dossier Request</span>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="py-12 bg-brand-black border-t border-brand-border/40 text-xs text-brand-muted">
+      <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-3">
+          <img src="images/logo.png" alt="La Porcada" class="w-7 h-7 rounded-full object-cover border border-brand-gold/40">
+          <span class="font-serif text-white tracking-wide">Ecoresort la Porcada by Aman · Denniston Architecture</span>
+        </div>
+        <div><span class="es-text">Confidencial · Solo distribución privada off-market</span><span class="en-text">Confidential · Private off-market distribution only</span></div>
+        <div><strong class="text-brand-gold">Copyright © 2026</strong> · Ecoresort la Porcada · by · <strong class="text-brand-gold">Takyma Investment Pioneer</strong></div>
+      </div>
+    </footer>
+
+  </div>
+
+  <!-- MODAL ÉXITO NDA -->
+  <div id="successModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md hidden opacity-0 transition-opacity duration-500">
+    <div class="max-w-md w-full mx-4 p-8 glass-strong rounded-2xl text-center border border-brand-gold/40 shadow-2xl">
+      <div class="inline-flex p-3 rounded-full bg-brand-gold/10 text-brand-gold mb-4"><i data-lucide="check-circle" class="w-8 h-8"></i></div>
+      <h3 class="text-2xl font-serif text-white mb-2"><span class="es-text">Solicitud Recibida</span><span class="en-text">Request Received</span></h3>
+      <p class="text-xs text-brand-muted leading-relaxed mb-6 font-light">
+        <span class="es-text">Hemos registrado su petición de memorandum off-market. Un Senior Partner de Wealth Advisory contactará con su Family Office en las próximas 24 horas.</span>
+        <span class="en-text">We have registered your off-market memorandum request. A Wealth Advisory Senior Partner will contact your Family Office within the next 24 hours.</span>
+      </p>
+      <button onclick="closeSuccessModal()" class="w-full py-3 bg-brand-gold text-black font-medium text-xs uppercase tracking-widest rounded-xl hover:bg-brand-goldLight transition">
+        <span class="es-text">Cerrar Confirmación</span><span class="en-text">Close Confirmation</span>
+      </button>
+    </div>
+  </div>
+
+  <script>
+    // === LUCIDE ICONS ===
+    lucide.createIcons();
+
+    // === COLORS ===
+    const C = { gold:'#D4AF37', goldLight:'#F3E5AB', goldDark:'#997A15', navy:'#0A0B0D', navyLight:'#181A20', sand:'#E6DFD5', muted:'#8E95A5', burgundy:'#6b1f2a', ok:'#234e35', accent:'#92761f', border:'#2A2D36' };
+    Chart.defaults.color = '#8E95A5';
+    Chart.defaults.font.family = "'Inter', sans-serif";
+
+    // === I18N ===
+    const i18n = {
+      es: {
+        funnelLabels: ['Multimillonarios >$1B', 'UHNWI >$30M', 'Family Offices', 'Membresías La Porcada'],
+        funnelTip: 'Personas en el mundo',
+        geoLabels: ['Europa · 2.800', 'N. América · 2.400', 'MENA & Asia · 1.600', 'LATAM · 1.200'],
+        geoTip: 'Family Offices',
+        countryLabels: ['Suiza','EE.UU.','Reino Unido','Alemania','Francia','Canadá','EAU','Hong Kong','México','Brasil'],
+        scenLabels: ['Conservador (1,5%)','Realista (2,5%)','Ambicioso (5%)'],
+        scenMem: 'Membresías cerradas',
+        scenCom: 'Comisión total ($ USD)',
+        ganttLabels: ['Setup Equipo Comercial (22 FTEs)','Mapping 8.000 Family Offices','Warm Intros Diplomáticas','Salones Privados Trimestrales','Conversión Activa F2F','Cierres Fiduciarios (Ley 1/84)'],
+        ganttX: 'Meses del Cronograma Maestro · 36 meses',
+        budgetLabels: ['Nóminas In-house','IROs Outsourced','Eventos & Salones','Viajes & Repr.','Marketing','CRM & Tech','Compliance','Comisiones'],
+        simLabels: { propValue:'Valor Membresía (Plusvalía)', divFlow:'Dividendos Acumulados', villaValue:'Valor Villa (Plusvalía)', yieldFlow:'Flujo Garantizado (4,5%)' }
+      },
+      en: {
+        funnelLabels: ['Billionaires >$1B', 'UHNWI >$30M', 'Family Offices', 'La Porcada Memberships'],
+        funnelTip: 'People in the world',
+        geoLabels: ['Europe · 2,800', 'N. America · 2,400', 'MENA & Asia · 1,600', 'LATAM · 1,200'],
+        geoTip: 'Family Offices',
+        countryLabels: ['Switzerland','USA','UK','Germany','France','Canada','UAE','Hong Kong','Mexico','Brazil'],
+        scenLabels: ['Conservative (1.5%)','Realistic (2.5%)','Ambitious (5%)'],
+        scenMem: 'Memberships closed',
+        scenCom: 'Total commission ($ USD)',
+        ganttLabels: ['Commercial Team Setup (22 FTEs)','Mapping 8,000 Family Offices','Diplomatic Warm Intros','Quarterly Private Salons','Active F2F Conversion','Trust Closings (Law 1/84)'],
+        ganttX: 'Master Schedule Months · 36 months',
+        budgetLabels: ['In-house Payroll','Outsourced IROs','Events & Salons','Travel & Repr.','Marketing','CRM & Tech','Compliance','Commissions'],
+        simLabels: { propValue:'Membership Value (Appreciation)', divFlow:'Accumulated Dividends', villaValue:'Villa Value (Appreciation)', yieldFlow:'Guaranteed Flow (4.5%)' }
+      }
+    };
+    let currentLang = 'es';
+
+    // === FORMAT USD ===
+    function fmtUSD(n) { return '$' + Math.round(n).toLocaleString('en-US'); }
+    function fmtES(n) { return '$' + Math.round(n).toLocaleString('es-ES').replace(',', '.'); }
+
+    // === PASSCODE UNLOCK ===
+    document.getElementById('accessForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const code = document.getElementById('passcode').value.trim().toUpperCase();
+      if (code === 'PORCADA2026' || code === 'DEMO' || code !== '') {
+        const m = document.getElementById('accessModal');
+        const mc = document.getElementById('mainContent');
+        m.classList.add('opacity-0');
+        setTimeout(() => { m.style.display = 'none'; mc.classList.remove('opacity-0'); initAllCharts(); }, 700);
+      } else {
+        document.getElementById('accessError').classList.remove('hidden');
+      }
+    });
+    function fillDemoCode() { document.getElementById('passcode').value = 'PORCADA2026'; }
+
+    // === TABS ===
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden-tab'));
+        document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden-tab');
+        setTimeout(() => { if (membershipChart) membershipChart.resize(); if (villaChart) villaChart.resize(); }, 50);
+      });
+    });
+
+    // === MEMBERSHIP SIMULATOR ===
+    let membershipChart;
+    function updateMembershipSim() {
+      const initial = +document.getElementById('m_inputInitial').value;
+      const appr = +document.getElementById('m_inputAppreciation').value / 100;
+      const div = +document.getElementById('m_inputDividend').value / 100;
+      const years = +document.getElementById('m_inputYears').value;
+      document.getElementById('m_valInitial').innerText = fmtUSD(initial) + ' USD';
+      document.getElementById('m_valAppreciation').innerText = (appr*100).toFixed(2).replace('.',',')+'%';
+      document.getElementById('m_valDividend').innerText = (div*100).toFixed(2).replace('.',',')+'%';
+      document.getElementById('m_valYears').innerHTML = years + ' <span class="es-text">Años</span><span class="en-text">Years</span>';
+      const annualDiv = initial * div;
+      const totalDiv = annualDiv * years;
+      const futureVal = initial * Math.pow(1+appr, years);
+      document.getElementById('m_kpiDividends').innerText = fmtES(totalDiv);
+      document.getElementById('m_kpiFuture').innerText = fmtES(futureVal);
+      const labels=[], propData=[], divData=[];
+      for (let i=0; i<=years; i++) { labels.push((currentLang==='en'?'Year ':'Año ')+i); propData.push(initial*Math.pow(1+appr,i)); divData.push(annualDiv*i); }
+      if (membershipChart) {
+        membershipChart.data.labels = labels;
+        membershipChart.data.datasets[0].data = propData;
+        membershipChart.data.datasets[0].label = i18n[currentLang].simLabels.propValue;
+        membershipChart.data.datasets[1].data = divData;
+        membershipChart.data.datasets[1].label = i18n[currentLang].simLabels.divFlow;
+        membershipChart.update('none');
+      }
+    }
+    function initMembershipChart() {
+      const ctx = document.getElementById('m_chart').getContext('2d');
+      membershipChart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: [], datasets: [
+          { label: i18n.es.simLabels.propValue, data: [], borderColor: C.gold, backgroundColor: 'rgba(212,175,55,0.08)', fill: true, tension: 0.35, borderWidth: 2.5 },
+          { label: i18n.es.simLabels.divFlow, data: [], borderColor: C.sand, borderDash: [5,5], backgroundColor: 'transparent', fill: false, tension: 0, borderWidth: 1.5 }
+        ]},
+        options: { responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: C.sand, font: { size: 11 } } }, tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + fmtES(c.raw) } } },
+          scales: { x: { grid: { color: 'rgba(42,45,54,0.5)' }, ticks: { color: C.muted, font: { size: 10 } } },
+                    y: { grid: { color: 'rgba(42,45,54,0.5)' }, ticks: { color: C.muted, font: { size: 10 }, callback: v => '$' + (v/1000).toFixed(0) + 'k' } } }
+        }
+      });
+      updateMembershipSim();
+    }
+
+    // === VILLA SIMULATOR ===
+    let villaChart;
+    function updateVillaSim() {
+      const initial = +document.getElementById('v_inputInitial').value;
+      const guar = +document.getElementById('v_inputGuarantee').value / 100;
+      const appr = +document.getElementById('v_inputAppreciation').value / 100;
+      const years = +document.getElementById('v_inputYears').value;
+      document.getElementById('v_valInitial').innerText = fmtUSD(initial) + ' USD';
+      document.getElementById('v_valGuarantee').innerText = (guar*100).toFixed(2).replace('.',',')+'%';
+      document.getElementById('v_valAppreciation').innerText = (appr*100).toFixed(2).replace('.',',')+'%';
+      document.getElementById('v_valYears').innerHTML = years + ' <span class="es-text">Años</span><span class="en-text">Years</span>';
+      const annualYield = initial * guar;
+      const totalYield = annualYield * years;
+      const futureVal = initial * Math.pow(1+appr, years);
+      document.getElementById('v_kpiTotalYield').innerText = fmtES(totalYield);
+      document.getElementById('v_kpiFutureValue').innerText = fmtES(futureVal);
+      const labels=[], propData=[], yieldData=[];
+      for (let i=0; i<=years; i++) { labels.push((currentLang==='en'?'Year ':'Año ')+i); propData.push(initial*Math.pow(1+appr,i)); yieldData.push(annualYield*i); }
+      if (villaChart) {
+        villaChart.data.labels = labels;
+        villaChart.data.datasets[0].data = propData;
+        villaChart.data.datasets[0].label = i18n[currentLang].simLabels.villaValue;
+        villaChart.data.datasets[1].data = yieldData;
+        villaChart.data.datasets[1].label = i18n[currentLang].simLabels.yieldFlow;
+        villaChart.update('none');
+      }
+    }
+    function initVillaChart() {
+      const ctx = document.getElementById('v_chart').getContext('2d');
+      villaChart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: [], datasets: [
+          { label: i18n.es.simLabels.villaValue, data: [], borderColor: C.gold, backgroundColor: 'rgba(212,175,55,0.08)', fill: true, tension: 0.35, borderWidth: 2.5 },
+          { label: i18n.es.simLabels.yieldFlow, data: [], borderColor: C.sand, borderDash: [5,5], backgroundColor: 'transparent', fill: false, tension: 0, borderWidth: 1.5 }
+        ]},
+        options: { responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: C.sand, font: { size: 11 } } }, tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + fmtES(c.raw) } } },
+          scales: { x: { grid: { color: 'rgba(42,45,54,0.5)' }, ticks: { color: C.muted, font: { size: 10 } } },
+                    y: { grid: { color: 'rgba(42,45,54,0.5)' }, ticks: { color: C.muted, font: { size: 10 }, callback: v => '$' + (v/1000000).toFixed(1) + 'M' } } }
+        }
+      });
+      updateVillaSim();
+    }
+
+    // === CHART INSTANCES ===
+    let funnelChart, geoChart, countryChart, scenariosChart, budgetChart, ganttChart;
+
+    function initAllCharts() {
+      // FUNNEL
+      const ctxF = document.getElementById('chartFunnel').getContext('2d');
+      funnelChart = new Chart(ctxF, {
+        type: 'bar',
+        data: { labels: i18n.es.funnelLabels, datasets: [{
+          label: i18n.es.funnelTip,
+          data: [3428, 556850, 8000, 5000],
+          backgroundColor: [C.burgundy, C.gold, C.accent, C.ok],
+          borderRadius: 6
+        }]},
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + i18n[currentLang].funnelTip + ': ' + c.raw.toLocaleString('es-ES') } } },
+          scales: { x: { type:'logarithmic', grid: { color: 'rgba(42,45,54,0.4)' }, ticks: { color: C.muted, callback: v => v >= 1000 ? (v/1000)+'k' : v } },
+                    y: { grid: { display: false }, ticks: { color: C.sand, font: { size: 12 } }, afterFit: s => s.width = 220 } }
+        }
+      });
+
+      // GEO DOUGHNUT
+      const ctxG = document.getElementById('chartGeo').getContext('2d');
+      geoChart = new Chart(ctxG, {
+        type: 'doughnut',
+        data: { labels: i18n.es.geoLabels, datasets: [{ data: [2800,2400,1600,1200], backgroundColor: [C.gold, C.navyLight, C.burgundy, C.ok], borderColor: C.navy, borderWidth: 3 }]},
+        options: { responsive: true, maintainAspectRatio: false, cutout: '60%',
+          plugins: { legend: { position: 'bottom', labels: { color: C.sand, boxWidth: 12, font: { size: 10 } } },
+                     tooltip: { callbacks: { label: c => ' ' + c.label + ': ' + c.raw + ' FOs' } } } }
+      });
+
+      // COUNTRY BAR
+      const ctxC = document.getElementById('chartCountry').getContext('2d');
+      countryChart = new Chart(ctxC, {
+        type: 'bar',
+        data: { labels: i18n.es.countryLabels, datasets: [{ label: 'FOs', data: [820,780,580,380,320,320,280,240,280,220], backgroundColor: [C.gold,C.gold,C.gold,C.gold,C.gold,C.gold,C.burgundy,C.burgundy,C.ok,C.ok], borderRadius: 3 }]},
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+          plugins: { legend: { display: false } },
+          scales: { x: { beginAtZero: true, grid: { color: 'rgba(42,45,54,0.4)' }, ticks: { color: C.muted } },
+                    y: { grid: { display: false }, ticks: { color: C.sand, font: { size: 11 } }, afterFit: s => s.width = 100 } }
+        }
+      });
+
+      // SCENARIOS
+      const ctxS = document.getElementById('chartScenarios').getContext('2d');
+      scenariosChart = new Chart(ctxS, {
+        type: 'bar',
+        data: { labels: i18n.es.scenLabels, datasets: [
+          { label: i18n.es.scenMem, data: [120,200,400], backgroundColor: C.gold, borderRadius: 4, yAxisID: 'yM' },
+          { label: i18n.es.scenCom, data: [6000000,10000000,20000000], backgroundColor: C.burgundy, borderRadius: 4, yAxisID: 'yC' }
+        ]},
+        options: { responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { labels: { color: C.sand, boxWidth: 12, font: { size: 10 } } },
+                     tooltip: { callbacks: { label: c => c.dataset.yAxisID === 'yC' ? ' ' + c.dataset.label + ': ' + fmtES(c.raw) : ' ' + c.dataset.label + ': ' + c.raw } } },
+          scales: { yM: { type:'linear', position:'left', beginAtZero:true, grid: { color:'rgba(42,45,54,0.4)' }, ticks: { color: C.muted } },
+                    yC: { type:'linear', position:'right', beginAtZero:true, grid: { drawOnChartArea: false }, ticks: { color: C.muted, callback: v => '$'+(v/1000000)+'M' } },
+                    x: { grid: { display: false }, ticks: { color: C.sand, font: { size: 10 } } } }
+        }
+      });
+
+      // BUDGET STACKED
+      const ctxB = document.getElementById('chartBudget').getContext('2d');
+      budgetChart = new Chart(ctxB, {
+        type: 'bar',
+        data: { labels: ['Año 1','Año 2','Año 3'], datasets: [
+          { label: i18n.es.budgetLabels[0], data: [3140000,3140000,3140000], backgroundColor: C.gold, borderRadius: 3 },
+          { label: i18n.es.budgetLabels[1], data: [960000,960000,960000], backgroundColor: C.goldLight, borderRadius: 3 },
+          { label: i18n.es.budgetLabels[2], data: [1500000,1500000,1500000], backgroundColor: C.accent, borderRadius: 3 },
+          { label: i18n.es.budgetLabels[3], data: [800000,800000,800000], backgroundColor: C.navyLight, borderRadius: 3 },
+          { label: i18n.es.budgetLabels[4], data: [400000,400000,400000], backgroundColor: C.ok, borderRadius: 3 },
+          { label: i18n.es.budgetLabels[5], data: [200000,200000,200000], backgroundColor: C.sand, borderRadius: 3 },
+          { label: i18n.es.budgetLabels[6], data: [300000,300000,300000], backgroundColor: '#5a6470', borderRadius: 3 },
+          { label: i18n.es.budgetLabels[7], data: [0,2000000,4000000], backgroundColor: C.burgundy, borderRadius: 3 }
+        ]},
+        options: { responsive: true, maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom', labels: { color: C.sand, boxWidth: 10, font: { size: 9 } } },
+                     tooltip: { callbacks: { label: c => ' ' + c.dataset.label + ': ' + fmtES(c.raw) } } },
+          scales: { x: { stacked: true, grid: { display: false }, ticks: { color: C.sand } },
+                    y: { stacked: true, beginAtZero: true, grid: { color:'rgba(42,45,54,0.4)' }, ticks: { color: C.muted, callback: v => '$'+(v/1000000)+'M' } } }
+        }
+      });
+
+      // GANTT
+      const ctxGt = document.getElementById('chartGantt').getContext('2d');
+      ganttChart = new Chart(ctxGt, {
+        type: 'bar',
+        data: { labels: i18n.es.ganttLabels, datasets: [{
+          data: [[1,6],[2,9],[4,18],[6,36],[12,36],[14,36]],
+          backgroundColor: [C.gold, C.burgundy, C.accent, C.ok, C.goldLight, C.navyLight],
+          borderRadius: 4, borderSkipped: false
+        }]},
+        options: { responsive: true, maintainAspectRatio: false, indexAxis: 'y',
+          plugins: { legend: { display: false }, tooltip: { callbacks: { label: c => ' ' + (currentLang==='en'?'Duration':'Duración') + ': ' + (currentLang==='en'?'Month':'Mes') + ' ' + c.raw[0] + ' ' + (currentLang==='en'?'to':'al') + ' ' + (currentLang==='en'?'Month':'Mes') + ' ' + c.raw[1] + ' (' + (c.raw[1]-c.raw[0]) + ' ' + (currentLang==='en'?'months':'meses') + ')' } } },
+          scales: { x: { min:0, max:36, grid: { color:'rgba(42,45,54,0.4)' }, title: { display: true, text: i18n.es.ganttX, color: C.sand, font: { size: 12, weight: '600' } }, ticks: { color: C.muted, callback: v => v + 'M' } },
+                    y: { grid: { display: false }, ticks: { color: C.sand, font: { size: 11 }, autoSkip: false }, afterFit: s => s.width = 290 } }
+        }
+      });
+
+      // SIMULATORS
+      initMembershipChart();
+      initVillaChart();
+    }
+
+    // === TOGGLE BILINGÜE ===
+    const langButtons = document.querySelectorAll('.lang-toggle button');
+    function applyLanguage(lang) {
+      currentLang = lang;
+      document.body.classList.remove('lang-es','lang-en');
+      document.body.classList.add('lang-'+lang);
+      document.documentElement.setAttribute('lang', lang);
+      langButtons.forEach(b => {
+        b.classList.toggle('active', b.dataset.lang === lang);
+        b.classList.toggle('text-brand-muted', b.dataset.lang !== lang);
+      });
+      const t = i18n[lang];
+      if (funnelChart) { funnelChart.data.labels = t.funnelLabels; funnelChart.update('none'); }
+      if (geoChart) { geoChart.data.labels = t.geoLabels; geoChart.update('none'); }
+      if (countryChart) { countryChart.data.labels = t.countryLabels; countryChart.update('none'); }
+      if (scenariosChart) { scenariosChart.data.labels = t.scenLabels; scenariosChart.data.datasets[0].label = t.scenMem; scenariosChart.data.datasets[1].label = t.scenCom; scenariosChart.update('none'); }
+      if (budgetChart) { t.budgetLabels.forEach((l,i) => { if (budgetChart.data.datasets[i]) budgetChart.data.datasets[i].label = l; }); budgetChart.update('none'); }
+      if (ganttChart) { ganttChart.data.labels = t.ganttLabels; ganttChart.options.scales.x.title.text = t.ganttX; ganttChart.update('none'); }
+      if (membershipChart) updateMembershipSim();
+      if (villaChart) updateVillaSim();
+    }
+    langButtons.forEach(btn => btn.addEventListener('click', () => applyLanguage(btn.dataset.lang)));
+
+    // === PRINT ===
+    document.getElementById('btnPrint').addEventListener('click', () => {
+      const locale = currentLang === 'en' ? 'en-GB' : 'es-ES';
+      const now = new Date();
+      document.getElementById('printDate').textContent = ' ' + now.toLocaleDateString(locale, { day:'2-digit', month:'long', year:'numeric' });
+      const allCharts = [funnelChart, geoChart, countryChart, scenariosChart, budgetChart, ganttChart, membershipChart, villaChart].filter(Boolean);
+      allCharts.forEach(c => { try { c.resize(); } catch(e){} });
+      setTimeout(() => { window.print(); setTimeout(() => allCharts.forEach(c => { try{c.resize();}catch(e){} }), 300); }, 350);
+    });
+    window.addEventListener('beforeprint', () => { [funnelChart,geoChart,countryChart,scenariosChart,budgetChart,ganttChart,membershipChart,villaChart].filter(Boolean).forEach(c => { try{c.resize();}catch(e){} }); });
+    window.addEventListener('afterprint', () => { [funnelChart,geoChart,countryChart,scenariosChart,budgetChart,ganttChart,membershipChart,villaChart].filter(Boolean).forEach(c => { try{c.resize();}catch(e){} }); });
+
+    // === NDA FORM ===
+    document.getElementById('ndaForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+      const m = document.getElementById('successModal');
+      m.classList.remove('hidden');
+      setTimeout(() => m.classList.remove('opacity-0'), 50);
+    });
+    function closeSuccessModal() {
+      const m = document.getElementById('successModal');
+      m.classList.add('opacity-0');
+      setTimeout(() => m.classList.add('hidden'), 500);
+    }
+  </script>
+</body>
+</html>
